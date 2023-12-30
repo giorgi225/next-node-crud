@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+*.js
+*.js.map
+*.d.ts
+
+# VSCode
+.vscode/
+
+# Others
+dist/
+build/
+*.log
+.env
