@@ -1,15 +1,13 @@
 "use client";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { LoginFormType } from "@/types/form.types";
-import {
-  InputFieldErrorsType,
-  fieldNamesType,
-  responseMessageType,
-} from "@/types/response.types";
+import { fieldNamesType, responseMessageType } from "@/types/response.types";
 import apiUtils from "@/utils/api.utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import Input from "../ui/Input";
+import { InputTypes } from "@/types/ui.types";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -37,7 +35,7 @@ const LoginForm = () => {
       const res: responseMessageType = await apiUtils.login(formData);
       if (res.success) {
         setErrors(null);
-        router.push("/")
+        router.push("/");
       }
       if (res.errors) {
         // field errors
@@ -57,7 +55,7 @@ const LoginForm = () => {
     }
   };
 
-  const displayError = (fieldName: fieldNamesType["fieldName"]) => {
+  const displayError = (fieldName: InputTypes["name"]) => {
     if (errors) {
       const errorForField = errors.find((error) => error.path === fieldName);
 
@@ -70,42 +68,27 @@ const LoginForm = () => {
   };
   return (
     <AuthLayout title="Sign in to your account" onSubmit={handleSubmit}>
-      <div>
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Your email
-        </label>
-        <input
-          type="email"
-          value={formData.email}
-          name="email"
-          id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@company.com"
-          onInput={handleInput}
-        />
-        <p className="text-sm text-red-500">{displayError("email")}</p>
-      </div>
-      <div>
-        <label
-          htmlFor="password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          id="password"
-          placeholder="••••••••"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          onInput={handleInput}
-        />
-        <p className="text-sm text-red-500">{displayError("password")}</p>
-      </div>
+      <Input
+        type="email"
+        value={formData.email}
+        name="email"
+        id="email"
+        placeholder="email"
+        onInput={handleInput}
+        displayError={displayError}
+        label="Email"
+      />
+      <Input
+        type="password"
+        value={formData.password}
+        name="password"
+        id="password"
+        placeholder="password"
+        onInput={handleInput}
+        displayError={displayError}
+        label="Password"
+      />
+
       <div className="flex items-center justify-between">
         <div className="flex items-start">
           <div className="flex items-center h-5">

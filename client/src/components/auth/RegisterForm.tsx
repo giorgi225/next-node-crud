@@ -6,6 +6,8 @@ import apiUtils from "@/utils/api.utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import Input from "../ui/Input";
+import { InputTypes } from "@/types/ui.types";
 
 const RegsterForm = () => {
   const router = useRouter();
@@ -43,7 +45,7 @@ const RegsterForm = () => {
     }
   };
 
-  const displayError = (fieldName: fieldNamesType["fieldName"]) => {
+  const displayError = (fieldName: InputTypes["name"]) => {
     if (errors) {
       const errorForField = errors.find((error) => error.path === fieldName);
 
@@ -57,101 +59,60 @@ const RegsterForm = () => {
   return (
     <AuthLayout title="Sign in to your account" onSubmit={handleSubmit}>
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your name
-          </label>
-          <input
-            type="text"
-            value={formData.name}
-            name="name"
-            id="name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="name@company.com"
-            onInput={handleInput}
-          />
-          <p className="text-sm text-red-500">{displayError("name")}</p>
-        </div>
-
-        <div>
-          <label
-            htmlFor="lastname"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your lastname
-          </label>
-          <input
-            type="text"
-            value={formData.lastname}
-            name="lastname"
-            id="lastname"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="name@company.com"
-            onInput={handleInput}
-          />
-          <p className="text-sm text-red-500">{displayError("lastname")}</p>
-        </div>
-      </div>
-      <div>
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Your email
-        </label>
-        <input
-          type="email"
-          value={formData.email}
-          name="email"
-          id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@company.com"
+        <Input
+          type="text"
+          value={formData.name}
+          name="name"
+          id="name"
+          placeholder="name"
           onInput={handleInput}
+          displayError={displayError}
+          label="Name"
         />
-        <p className="text-sm text-red-500">{displayError("email")}</p>
+
+        <Input
+          type="text"
+          value={formData.lastname}
+          name="lastname"
+          id="lastname"
+          placeholder="lastname"
+          onInput={handleInput}
+          displayError={displayError}
+          label="Lastname"
+        />
       </div>
+
+      <Input
+        type="text"
+        value={formData.email}
+        name="email"
+        id="email"
+        placeholder="email"
+        onInput={handleInput}
+        displayError={displayError}
+        label="Email"
+      />
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            id="password"
-            placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onInput={handleInput}
-          />
-          <p className="text-sm text-red-500">{displayError("password")}</p>
-        </div>
-        <div>
-          <label
-            htmlFor="password_confirmation"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="password_confirmation"
-            value={formData.password_confirmation}
-            id="password_confirmation"
-            placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onInput={handleInput}
-          />
-          <p className="text-sm text-red-500">
-            {displayError("password_confirmation")}
-          </p>
-        </div>
+        <Input
+          type="password"
+          value={formData.password}
+          name="password"
+          id="password"
+          placeholder="password"
+          onInput={handleInput}
+          displayError={displayError}
+          label="Password"
+        />
+         <Input
+          type="password"
+          value={formData.password_confirmation}
+          name="password_confirmation"
+          id="password_confirmation"
+          placeholder="password_confirmation"
+          onInput={handleInput}
+          displayError={displayError}
+          label="Confirm Password"
+        />
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-start">
