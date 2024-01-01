@@ -34,7 +34,7 @@ class AuthController {
       });
       await newUser.save();
 
-      // generate token and refresh token, save in cookies and send success response
+      // generate accessToken and refresh accessToken, save in cookies and send success response
       const jwt = new JWT(newUser._id, res);
       jwt.createToken();
       jwt.createRefreshToken();
@@ -55,7 +55,7 @@ class AuthController {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(200).json({
+        return res.status(400).json({
           success: false,
           msg: "Invalid credentials",
         });
@@ -63,7 +63,7 @@ class AuthController {
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return res.status(200).json({
+        return res.status(400).json({
           success: false,
           msg: "Invalid credentials",
         });
@@ -84,8 +84,8 @@ class AuthController {
   }
   public async logout(req: Request, res: Response) {
     try {
-      res.clearCookie("token");
-      res.clearCookie("refresh-token");
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
       res.status(200).json({ success: true, msg: "Logout successfully" });
     } catch (err) {
       console.error(err);

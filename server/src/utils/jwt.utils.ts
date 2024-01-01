@@ -27,6 +27,8 @@ class JWT {
     if (!this.res) return;
     this.res.cookie("token", token, {
       httpOnly: true,
+      secure: true,
+      sameSite: "none"
     });
   }
 
@@ -41,10 +43,12 @@ class JWT {
     if (!this.res) return;
     this.res.cookie("refresh-token", refreshToken, {
       httpOnly: true,
+      secure: true,
+      sameSite: "none"
     });
   }
 
-  public verifyToken(token: string): JwtPayload['user_id'] {
+  public verifyToken(token: string): JwtPayload["user_id"] {
     return jwt.verify(token, "SECRET_TOKEN");
   }
   public verifyRefreshToken(token: string): JwtPayload["user_id"] {
